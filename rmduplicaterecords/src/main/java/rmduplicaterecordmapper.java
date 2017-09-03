@@ -14,15 +14,20 @@ public class rmduplicaterecordmapper extends Mapper<LongWritable, Text, Text, In
     protected void map(LongWritable key, Text value,
                        Context context)
             throws IOException, InterruptedException {
+        //loop through each line of the television text file
         String[] linesArray = value.toString().split("  ");
-        for(String s: linesArray){
-            System.out.println(s);}
+
+        //print each line of the file to output -- for debugging
+       /* for(String s: linesArray){
+            System.out.println(s);}*/
+       //loop through each column in the line to find the invalid company and product names
         for(String line : linesArray){
             String[] lineArray = line.split("\\|");
-            for(String s: lineArray){
-                System.out.println(s);}
+            /*for(String s: lineArray){
+                System.out.println(s);} -- for debuggin purpose */
             Text company = new Text(lineArray[0]);
             Text product = new Text(lineArray[1]);
+            // Remove lines which have company or product as "NA"
             if(!company.equals(new Text("NA"))){
                 if(!product.equals(new Text("NA"))){
             context.write(company,one);
